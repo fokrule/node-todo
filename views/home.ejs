@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todo App</title>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+    <style>
+    body{
+        background-color: black;
+    }
+    .left{
+        background-color: green;
+        width: 60%;
+        height: 400px;
+        float: left;
+    }
+    .right{
+        float: left;
+        background-color: blue;
+        width: 40%;
+        height: 400px;
+    }
+    </style>
+</head>
+<body>
+    <div class="left">
+        <form id="add-note">
+            <input type="text" name="note">
+            <button id="save">Save</button>
+        </form>
+    </div>
+    <div class="right">
+        <ul>
+            <li>
+                note 1
+            </li>
+            <li>
+                note 1
+            </li>
+            <li>
+                note 1
+            </li>
+            <li>
+                note 1
+            </li>
+            <li>
+                note 1
+            </li>
+        </ul>
+    </div>
+    <script>
+        $('#save').click(function(e) {
+            e.preventDefault()
+            var item = $('form input');
+            var todo = item.val();
+            $.ajax({
+                type : 'post',
+                url : '/',
+                data : todo,
+                success:function(data){
+                    //location.reload();
+                }
+            });
+            //return false;
+        });
+    </script>
+</body>
+</html>
