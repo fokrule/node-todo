@@ -30,44 +30,34 @@
 <body>
     <div class="left">
         <form id="add-note">
-            <input type="text" name="note">
+            <input type="text" name="note" autofocus="">
             <button id="save">Save</button>
         </form>
     </div>
     <div class="right">
         <ul>
-            <li>
-                note 1
-            </li>
-            <li>
-                note 1
-            </li>
-            <li>
-                note 1
-            </li>
-            <li>
-                note 1
-            </li>
-            <li>
-                note 1
-            </li>
+            <% for(var i=0; i < notes.length; i++){  %>
+                <li><%= notes[i].item %></li>
+            <% } %>
         </ul>
     </div>
     <script>
-        $('#save').click(function(e) {
-            e.preventDefault()
-            var item = $('form input');
-            var todo = item.val();
-            $.ajax({
-                type : 'post',
-                url : '/',
-                data : todo,
-                success:function(data){
-                    //location.reload();
-                }
+        $(document).ready(function(){
+            $('form').on('submit',function(e) {
+                var item = $('form input');
+                var todo = {item: item.val()};
+                $.ajax({
+                    type : 'post',
+                    url : '/',
+                    data : todo,
+                    success:function(data){
+                        location.reload();
+                    }
+                });
+                return false;
             });
-            //return false;
         });
+        
     </script>
 </body>
 </html>
