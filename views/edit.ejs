@@ -58,21 +58,10 @@
         <div class="col-md-6">
         <div class="left">
             <form id="add-note">
-                <input type="text" name="note" autofocus="" class="form-control" style="width:50%;margin: 0 auto" required="true">
+                <input type="hidden" name="id" autofocus="" class="form-control" style="width:50%;margin: 0 auto" required="true" value="<%= data[0]._id %>" id="id">
+                <input type="text" name="note" autofocus="" class="form-control" style="width:50%;margin: 0 auto" required="true" value="<%= data[0].item %>" id="note">
                 <button id="save" style="margin-left:45%;margin-top:5px;" class="btn btn-success">Save</button>
             </form>
-        </div>
-        </div>
-        <div class="col-md-6">
-        <div class="right">
-            <ul>
-                <% for(var i=0; i < notes.length; i++){  %>
-                    <li class="<%= notes[i]._id %>"><%= notes[i].item %></li>
-                    <a href="/edit/<%= notes[i]._id %>">Edit</a>
-                    <!-- <input type="hidden" value="<%= notes[i]._id %>">
-                    <span class="edit btn btn-group-sm btn-success" id="<%= notes[i]._id %>">edit</span> -->
-                <% } %>
-            </ul>
         </div>
         </div>
     </div>
@@ -80,32 +69,20 @@
     <script>
         $(document).ready(function(){
             $('form').on('submit',function(e) {
-                var item = $('form input');
-                var todo = {item: item.val()};
+                var form = $(this);
+                var todo = form.serialize();
                 $.ajax({
                     type : 'post',
-                    url : '/',
+                    url : '/edit',
                     data : todo,
                     success:function(data){
-                        location.reload();
+                        //alert('note updated successfully');
+                        window.location.href = '/';
                     }
                 });
                 return false;
-            });
-
-            $('li').on('click', function(){
-                  var id = $(this).attr('class');
-                  console.log(id);
-                  $.ajax({
-                    type: 'DELETE',
-                    url: '/' + id,
-                    success: function(data){
-                      location.reload();
-                    }
-                  });
-              });
-        });
-        
+            });   
+            });     
     </script>
 </body>
 </html>

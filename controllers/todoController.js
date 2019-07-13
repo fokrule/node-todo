@@ -1,7 +1,8 @@
+var dbConfig = require('../config/server.js');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var urlencodeParser = bodyParser.urlencoded({extended: false});
-mongoose.connect('mongodb+srv://fokrule:fokrule@cluster0-kgefs.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true});
+mongoose.connect(dbConfig.url, {useNewUrlParser: true});
 var todoSchema = new mongoose.Schema({
 	item: String
 }); 
@@ -33,5 +34,20 @@ module.exports = function(app){
             if (err) throw err;
             res.json(data);
         });
+    });
+
+    app.get('/edit/:id', function(req, res){
+    	var note = Todo.find({_id: req.params.id},function(err, data){
+    		if (err) throw err;
+    		res.render('edit',{data : data})
+    	});
+    });
+    app.post('/edit', urlencodeParser, function (req, res) {
+    	var id = req.body.id;
+    	var note = req.body.note;
+    	Todo.updateOne({_id: id},{item: note}, function(err, data){
+    		if (err) throw err;
+    		res.json(data);
+    	});
     });
 }
