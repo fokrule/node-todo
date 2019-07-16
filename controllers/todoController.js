@@ -18,7 +18,6 @@ module.exports = function(app){
             
         	res.render('home',{notes: data});
         });
-        //.render('home');
     });
 
     app.post('/', urlencodeParser, function(req, res){
